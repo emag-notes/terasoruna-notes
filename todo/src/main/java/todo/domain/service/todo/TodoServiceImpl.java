@@ -1,5 +1,6 @@
 package todo.domain.service.todo;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.BusinessException;
@@ -18,7 +19,8 @@ import java.util.UUID;
 @Transactional
 public class TodoServiceImpl implements TodoService {
 
-  private static final long MAX_UNFINISHED_COUNT = 5;
+  @Value("${todo.max_unfinished_count}")
+  private long maxUnfinishedCount;
 
   @Inject
   TodoRepository todoRepository;
@@ -44,10 +46,10 @@ public class TodoServiceImpl implements TodoService {
   @Override
   public Todo create(Todo todo) {
     long unfinishedCount = todoRepository.countByFinished(false);
-    if (unfinishedCount >= MAX_UNFINISHED_COUNT) {
+    if (unfinishedCount >= maxUnfinishedCount) {
       ResultMessages messages = ResultMessages.error();
       messages.add(ResultMessage.fromText(
-        "[E001] The count of un-finished Todo must not be over " + MAX_UNFINISHED_COUNT + "."));
+        "[E001] The count of un-finished Todo must not be over " + maxUnfinishedCount + "."));
       throw new BusinessException(messages);
     }
 
