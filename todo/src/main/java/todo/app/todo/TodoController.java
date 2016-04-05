@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.terasoluna.gfw.common.exception.BusinessException;
-import org.terasoluna.gfw.common.message.ResultMessage;
 import org.terasoluna.gfw.common.message.ResultMessages;
 import todo.domain.model.Todo;
 import todo.domain.service.todo.TodoService;
@@ -59,7 +58,7 @@ public class TodoController {
     }
 
     attributes.addFlashAttribute(
-      ResultMessages.success().add(ResultMessage.fromText("Created successfully!")));
+      ResultMessages.success().add("i.td.fw.0000"));
 
     return "redirect:/todo/list";
   }
@@ -80,7 +79,7 @@ public class TodoController {
     }
 
     attributes.addFlashAttribute(
-      ResultMessages.success().add(ResultMessage.fromText("Finished successfully!")));
+      ResultMessages.success().add("i.td.fw.0001"));
     return "redirect:/todo/list";
   }
 
@@ -100,7 +99,7 @@ public class TodoController {
     }
 
     attributes.addFlashAttribute(
-      ResultMessages.success().add(ResultMessage.fromText("Deleted successfully!")));
+      ResultMessages.success().add("i.td.fw.0002"));
     return "redirect:/todo/list";
   }
 

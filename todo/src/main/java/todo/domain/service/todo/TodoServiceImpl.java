@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.terasoluna.gfw.common.exception.BusinessException;
 import org.terasoluna.gfw.common.exception.ResourceNotFoundException;
-import org.terasoluna.gfw.common.message.ResultMessage;
 import org.terasoluna.gfw.common.message.ResultMessages;
 import todo.domain.model.Todo;
 import todo.domain.repository.todo.TodoRepository;
@@ -30,8 +29,7 @@ public class TodoServiceImpl implements TodoService {
     Todo todo = todoRepository.findOne(todoId);
     if (todo == null) {
       ResultMessages messages = ResultMessages.error();
-      messages.add(ResultMessage.fromText(
-        "[E404] The requested Todo is not found. (id="  + todoId + ")"));
+      messages.add("e.td.fw.8000", todoId);
       throw new ResourceNotFoundException(messages);
     }
     return todo;
@@ -48,8 +46,7 @@ public class TodoServiceImpl implements TodoService {
     long unfinishedCount = todoRepository.countByFinished(false);
     if (unfinishedCount >= maxUnfinishedCount) {
       ResultMessages messages = ResultMessages.error();
-      messages.add(ResultMessage.fromText(
-        "[E001] The count of un-finished Todo must not be over " + maxUnfinishedCount + "."));
+      messages.add("e.td.fw.8001", maxUnfinishedCount);
       throw new BusinessException(messages);
     }
 
@@ -69,8 +66,7 @@ public class TodoServiceImpl implements TodoService {
     Todo todo = findOne(todoId);
     if (todo.isFinished()) {
       ResultMessages messages = ResultMessages.error();
-      messages.add(ResultMessage.fromText(
-        "[E002] The requested Todo is already finished. (id=" + todoId + ")"));
+      messages.add("e.td.fw.8002", todoId);
       throw new BusinessException(messages);
     }
 
